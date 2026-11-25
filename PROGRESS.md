@@ -8,7 +8,7 @@ Nothing yet. (Phone model + Android version for every item that lands here.)
 
 **Changed**
 - Gradle multi-module project: `protocol` (pure Kotlin/JVM), `verifier-cli` (JVM, `application`), `app` (Android, Compose).
-- Toolchain: Gradle 9.9.2, AGP 9.5.2 (built-in Kotlin, so no `kotlin-android` plugin), Kotlin 2.4.21, compileSdk/targetSdk 37, minSdk 34, Java 17 bytecode. Libraries: `androidx.core.uwb:uwb:1.1.0-alpha03`, `play-services-nearby:19.5.1`, Compose BOM 2026.11.01, coroutines 1.11.0.
+- Toolchain: Gradle 9.9.2, AGP 9.5.2 (built-in Kotlin, so no `kotlin-android` plugin), Kotlin 2.4.21, compileSdk 37.2 (Compose BOM 2026.11 needs 37.1+), targetSdk 37, minSdk 34, Java 17 bytecode. Libraries: `androidx.core.uwb:uwb:1.1.0-alpha03`, `play-services-nearby:19.5.1`, Compose BOM 2026.11.01, coroutines 1.11.0.
 - Encoding decision: **canonical JSON**, not CBOR. JCS-style rules restricted to integers: sorted keys (UTF-16 order), no whitespace, no floats, byte strings as unpadded base64url with strict decoding. Strict parser rejects floats, leading zeros, duplicate keys, lone surrogates, invalid UTF-8, trailing data, deep nesting. Signatures will always be over the re-encoded canonical bytes. Tests cover determinism (shuffled field order) and round-trips.
 - Interfaces + fakes in `protocol`: `PeerChannel` / `InMemoryChannelPair` (with wire hooks for tamper/drop tests), `RangingProvider` / `FakeRangingProvider` (scripted mm values, virtual-time timestamps). `RangingSessionParams.toString()` redacts the STS key.
 - App: single activity, Start screen (Host/Join, disabled until M1), About screen with the known limits, `POE` log tag, `INSECURE_STATIC_STS` and `DEBUG_LOG_SECRETS` BuildConfig flags (both false; a unit test enforces it). Manifest strips `INTERNET`.

@@ -5,7 +5,12 @@ plugins {
 
 android {
     namespace = "io.github.wuttttta.uwb"
-    compileSdk = 37
+    // Compose BOM 2026.11 needs android-37.1+; 37.2 is the newest stable platform.
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 2
+        }
+    }
 
     defaultConfig {
         // Attestation checks pin this package name: changing it invalidates old proofs.
