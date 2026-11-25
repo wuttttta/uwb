@@ -13,14 +13,14 @@ jobs:
   apk:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       # Fixed signing key from repo secrets, so each build installs over the last one
       # and the signing-certificate digest that attestation checks pin stays stable.
@@ -41,7 +41,15 @@ jobs:
         env:
           UWB_KEYSTORE_PASSWORD: ${{ secrets.UWB_KEYSTORE_PASSWORD }}
           UWB_KEY_ALIAS: ${{ secrets.UWB_KEY_ALIAS }}
-        run: ./gradlew test assembleDebug :verifier-cli:installDist --stacktrace
+        # Errors are re-emitted as annotations, which (unlike logs) are readable without a login.
+        run: |
+          set -o pipefail
+          if ! ./gradlew test assembleDebug :verifier-cli:installDist --continue 2>&1 | tee gradle.log; then
+            grep -E '^e: |^w: .*(deprecated|removed)|FAILED$|failed$' gradle.log | head -40 | while IFS= read -r l; do echo "::error::$l"; done
+            awk '/What went wrong/{f=1} f{print} /^\* Try:/{f=0}' gradle.log | head -60 \
+              | python3 -c 'import sys; print("::error title=gradle::" + sys.stdin.read().replace("%","%25").replace("\r","").replace("\n","%0A"))'
+            exit 1
+          fi
 
       - name: Signing certificate digest
         run: |
