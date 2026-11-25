@@ -12,7 +12,13 @@ It also includes a JVM command-line verifier for proof bundles.
 
 ## Status
 
-Early prototype, nothing built yet. See `CLAUDE.md` for the design and `PROGRESS.md` (once it exists) for what has been verified on real hardware.
+Early prototype. Milestone M0 (project scaffold) is done; UWB ranging is next. See `CLAUDE.md` for the design and `PROGRESS.md` for what has actually been verified on real hardware.
+
+## Build
+
+- `./gradlew test`: unit tests (JVM modules run anywhere; the app module needs an Android SDK).
+- `./gradlew :app:assembleDebug`: APK. CI builds one on every push and publishes signed releases for Obtainium.
+- `./gradlew :verifier-cli:run --args="verify bundle.json --package io.github.wuttttta.uwb --cert-sha256 <hex>"`: verify a proof bundle (from milestone M4).
 
 ## Requirements
 
