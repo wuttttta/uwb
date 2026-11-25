@@ -1,9 +1,9 @@
 package io.github.wuttttta.uwb
 
 import io.github.wuttttta.uwb.ui.KNOWN_LIMITS
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Test
 
 class KnownLimitsTest {
     @Test

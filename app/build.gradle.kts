@@ -75,7 +75,6 @@ dependencies {
     implementation(libs.uwb)
     implementation(libs.play.services.nearby)
 
-    testImplementation(libs.kotlin.test)
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)
 }
