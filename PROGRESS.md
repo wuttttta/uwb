@@ -17,7 +17,7 @@ Nothing yet. (Phone model + Android version for every item that lands here.)
 - Release signing key: EC P-256, PKCS12, kept outside the repo. Certificate SHA-256 (this goes in the attestation allow-list):
   `DEEEE1B4A27299A1FA40AEFA90FDE1DB5ADCBC4A2E6FE655646C83C43745D12C`
 
-**Tests**: `./gradlew test` on the dev Pi: 27 JVM tests pass (protocol + verifier-cli). The `app` module builds only where an Android SDK exists (CI); see below.
+**Tests**: `./gradlew test` on the dev Pi: 27 JVM tests pass (protocol + verifier-cli). CI (GitHub Actions, ubuntu): all tests including the app unit tests pass and the debug APK builds. Not yet installed on any phone.
 
 **Environment notes**
 - Dev machine is a Raspberry Pi (aarch64). Google ships no ARM64 Linux Android build tools, so `settings.gradle.kts` includes `:app` only when an SDK is configured (`ANDROID_HOME`, `ANDROID_SDK_ROOT` or `local.properties`). CI always builds it. Local JDK: `~/.local/jdk/jdk-21*` (set `JAVA_HOME`).
